@@ -1,28 +1,32 @@
-# Typescript-Discord.js-v14-Template
+# Enshrouded Discord bot
 
-This repository provides a rapid deployment template for building Discord bots using Discord.js version 14 with Typescript. It includes ready-to-use code for handling commands, events, and interactions, so you can get your bot up and running quickly.
+Discord bot for a containerized Enshrouded server. `/start` and `/stop` start and stop the game server container on the same machine.
 
-## 📦 Installation
+The bot runs in Docker and talks to the local Docker engine through a socket proxy. It can only control a container that exists on that engine. Set `CONTAINER_NAME` to that container's name.
 
-Follow these steps to get started:
+## Setup
 
-1. **Clone the Repository:** Use the command below to clone the project.
-   ```bash
-   git clone https://github.com/OfficialDelta/Typescript-Discord.js-v14-Template.git YOUR_PROJECT_NAME
-   ```
+Create `src/.env`:
 
-2. **Configure Environment:** Rename `RENAME.env` to `.env`, and update the `.env` and `config.json` files with the required settings specific to your bot.
+```env
+TOKEN=
+CLIENT_ID=
+OWNER_ID=
+CONTAINER_NAME=enshrouded-proton
+```
 
-3. **Customize Commands:** Follow the provided templates to create and customize commands for your bot. Everything is set up to make this process as smooth as possible.
+`TOKEN` is the bot token. `CLIENT_ID` is the application id. `OWNER_ID` is the Discord user id allowed to run the message commands.
 
-## 🏗️ Building
+## Run
 
-Use the predefined scripts in the `package.json` file to build and manage your project. These scripts streamline various tasks, such as compiling and linting.
+From this directory, with Docker already running:
 
-## ✉️ Support & Contributions
+```bash
+docker compose --env-file src/.env up -d --build
+```
 
-Feel free to open issues or submit pull requests if you have suggestions, questions, or run into any problems. Your contributions are welcome!
+That starts the socket proxy and the bot. Logs:
 
----
-
-Happy coding, and enjoy building your Discord bot with the Typescript-Discord.js-v14-Template! 🚀
+```bash
+docker compose logs -f enshrouded-bot
+```

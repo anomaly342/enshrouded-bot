@@ -7,10 +7,14 @@ import type ApplicationCommand from './templates/ApplicationCommand.js'
 import type Event from './templates/Event.js'
 import type MessageCommand from './templates/MessageCommand.js'
 import deployGlobalCommands from './deployGlobalCommands.js'
-const { TOKEN } = process.env
+const { TOKEN, CONTAINER_NAME } = process.env
+
+if (!TOKEN || !CONTAINER_NAME) {
+    console.error('TOKEN and CONTAINER_NAME must be set in the environment.')
+    process.exit(1)
+}
 
 await deployGlobalCommands()
-
 // Discord client object
 global.client = Object.assign(
     new Client({

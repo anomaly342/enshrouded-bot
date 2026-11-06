@@ -4,7 +4,7 @@ import type ApplicationCommand from '../templates/ApplicationCommand.js'
 import MessageCommand from '../templates/MessageCommand.js'
 import { REST } from '@discordjs/rest'
 import { RESTPostAPIApplicationCommandsJSONBody, Routes } from 'discord.js'
-import { default as config } from '../config.json' assert { type: 'json' }
+import { default as config } from '../config.json' with { type: 'json' }
 
 const { TOKEN, CLIENT_ID, OWNER_ID } = process.env as {
     TOKEN: string

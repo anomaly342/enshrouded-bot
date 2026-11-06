@@ -1,0 +1,35 @@
+services:
+  socket-proxy:
+    image: tecnativa/docker-socket-proxy
+    container_name: socket-proxy
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      POST: 1            # start/stop are POST requests
+      CONTAINERS: 1      # list / inspect / logs
+      ALLOW_START: 1     # docker start
+      ALLOW_STOP: 1      # docker stop
+      ALLOW_RESTARTS: 1  # docker restart
+    networks:
+      - bot-net
+
+  enshrouded-bot:
+    build:
+      context: .
+      dockerfile: .dockerfile
+    container_name: enshrouded-bot
+    restart: unless-stopped
+    depends_on:
+      - socket-proxy
+    environment:
+      DOCKER_HOST: tcp://socket-proxy:2375
+      TOKEN: ${TOKEN}
+      CLIENT_ID: ${CLIENT_ID}
+      OWNER_ID: ${OWNER_ID}
+      CONTAINER_NAME: ${CONTAINER_NAME}
+    networks:
+      - bot-net
+
+networks:
+  bot-net:
